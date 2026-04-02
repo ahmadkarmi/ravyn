@@ -66,8 +66,7 @@
           "project": "ravyn",
           "organization": "trakr"
         }
-      ],
-      "@sentry/react-native"
+      ]
     ]
   }
 }
