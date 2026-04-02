@@ -14,6 +14,7 @@ import {
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/ThemeContext';
 import { spacing, borderRadius, shadows } from '../theme';
 import * as Haptics from 'expo-haptics';
@@ -62,6 +63,7 @@ interface CustomTabBarProps extends BottomTabBarProps {
 
 function CustomTabBar({ state, descriptors, navigation, overdueCount }: CustomTabBarProps) {
     const { colors, isDark } = useTheme();
+    const insets = useSafeAreaInsets();
 
     const tabAnims = useRef<Animated.Value[]>(
         state.routes.map((_, i) => new Animated.Value(state.index === i ? 1 : 0))
@@ -79,7 +81,7 @@ function CustomTabBar({ state, descriptors, navigation, overdueCount }: CustomTa
     }, [state.index]);
 
     return (
-        <View style={[styles.tabBarOuter, { pointerEvents: 'box-none' }]}>
+        <View style={[styles.tabBarOuter, { pointerEvents: 'box-none', paddingBottom: insets.bottom + spacing.sm }]}>
             <View
                 style={[
                     styles.tabBarContainer,
@@ -226,7 +228,6 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         paddingHorizontal: spacing.lg,
-        paddingBottom: Platform.OS === 'ios' ? spacing.md : spacing.sm,
     },
     tabBarContainer: {
         borderWidth: 1,

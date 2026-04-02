@@ -263,12 +263,14 @@ export default function ProfileScreen({ onReset }: ProfileScreenProps) {
             let newAvatarUrl = avatarUrl;
 
             if (pendingAvatarUri) {
+                // arrayBuffer is used instead of blob — React Native's fetch
+                // does not reliably produce a uploadable Blob on Android.
                 const response = await fetch(pendingAvatarUri);
-                const blob = await response.blob();
+                const arrayBuffer = await response.arrayBuffer();
                 const path = `${user.id}/${Date.now()}.jpg`;
                 const { error: uploadError } = await supabase.storage
                     .from('avatars')
-                    .upload(path, blob, { contentType: 'image/jpeg', upsert: true });
+                    .upload(path, arrayBuffer, { contentType: 'image/jpeg', upsert: true });
                 if (uploadError) throw uploadError;
                 const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path);
                 newAvatarUrl = publicUrl;
