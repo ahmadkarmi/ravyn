@@ -205,14 +205,18 @@ export default function ProfileScreen({ onReset }: ProfileScreenProps) {
         setNotificationsOn(granted);
     }, []);
 
-    // Load user metadata separately so that a post-save onAuthStateChange
-    // never overwrites values the user just submitted.
+    // Sync display name and avatar from Supabase user metadata only when
+    // the user object itself changes (i.e. after onAuthStateChange fires).
+    // Excluding isEditing from deps intentionally — triggering on isEditing
+    // would fire while user still holds stale metadata and overwrite the
+    // values we just saved locally.
     useEffect(() => {
-        if (!isEditing && user?.user_metadata) {
+        if (user?.user_metadata) {
             setDisplayName(user.user_metadata.full_name || '');
             setAvatarUrl(user.user_metadata.avatar_url || null);
         }
-    }, [user, isEditing]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user]);
 
     useFocusEffect(
         useCallback(() => {
