@@ -186,15 +186,11 @@ export default function LoginScreen({ onSuccess }: LoginScreenProps) {
                 return;
             }
 
-            // On native: use WebBrowser popup + deep link redirect
-            const redirectUrl = Linking.createURL('/auth-callback');
-
-            if (redirectUrl.includes('localhost') || redirectUrl.includes('127.0.0.1')) {
-                Alert.alert(
-                    'Setup Warning',
-                    `Your app is generating a localhost redirect URL (${redirectUrl}). This can fail on physical devices. Restart Expo with --tunnel or --host lan.`
-                );
-            }
+            // On native: use WebBrowser popup + deep link redirect.
+            // Always use the production scheme (ravyn://) so it works in both
+            // the dev client and production builds — both respond to this scheme
+            // since it is defined in app.json, and it is whitelisted in Supabase.
+            const redirectUrl = 'ravyn://auth-callback';
 
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: provider.id,

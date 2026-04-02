@@ -225,7 +225,7 @@ export default function OnboardingScreen({ onComplete }: OnboardingScreenProps) 
                 return;
             }
 
-            const redirectUrl = Linking.createURL('/auth-callback');
+            const redirectUrl = 'ravyn://auth-callback';
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: provider.id,
                 options: {
