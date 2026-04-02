@@ -28,6 +28,7 @@ if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
 import { useFocusEffect } from '@react-navigation/native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -131,6 +132,7 @@ export default function ProfileScreen({ onReset }: ProfileScreenProps) {
     const { showToast } = useToast();
     const { user, signOut } = useAuth();
     const insets = useSafeAreaInsets();
+    const tabBarHeight = useBottomTabBarHeight();
     const { lastSyncAt } = useSync();
 
     const screenOpacity = useRef(new Animated.Value(0)).current;
@@ -500,7 +502,7 @@ export default function ProfileScreen({ onReset }: ProfileScreenProps) {
             <Animated.View style={{ flex: 1, opacity: screenOpacity, transform: [{ translateY: screenTranslateY }] }}>
             <ScrollView
                 style={styles.scrollView}
-                contentContainerStyle={styles.scrollContent}
+                contentContainerStyle={[styles.scrollContent, { paddingBottom: tabBarHeight + 20 }]}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
                 keyboardDismissMode="on-drag"
@@ -885,7 +887,7 @@ export default function ProfileScreen({ onReset }: ProfileScreenProps) {
 const styles = StyleSheet.create({
     root: { flex: 1 },
     scrollView: { flex: 1 },
-    scrollContent: { paddingBottom: 40 },
+    scrollContent: {},
 
     // ── Backdrop orbs
     backdropLayer: {

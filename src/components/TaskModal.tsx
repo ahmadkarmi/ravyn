@@ -1021,6 +1021,7 @@ const styles = StyleSheet.create({
     calConfirm: {
         marginTop: spacing.sm,
         paddingVertical: 10,
+        paddingHorizontal: spacing.lg,
         borderRadius: borderRadius.lg,
         alignItems: 'center',
     },
@@ -1043,6 +1044,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: spacing.sm,
         paddingVertical: 14,
+        paddingHorizontal: spacing.lg,
         borderRadius: borderRadius.lg,
         marginBottom: spacing.md,
     },

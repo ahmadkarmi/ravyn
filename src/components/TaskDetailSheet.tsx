@@ -24,6 +24,7 @@ if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Task, Tag } from '../types';
 import { useTheme } from '../theme/ThemeContext';
@@ -74,6 +75,7 @@ export default function TaskDetailSheet({
     onTitleChange,
 }: TaskDetailSheetProps) {
     const { colors } = useTheme();
+    const insets = useSafeAreaInsets();
     const slideAnim = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
     const overlayAnim = useRef(new Animated.Value(0)).current;
     const onCloseRef = useRef(onClose);
@@ -245,6 +247,7 @@ export default function TaskDetailSheet({
                         {
                             backgroundColor: colors.surfaceElevated,
                             transform: [{ translateY: slideAnim }],
+                            paddingBottom: spacing.xxl + 20 + insets.bottom,
                         }
                     ]}
                 >
@@ -655,7 +658,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: borderRadius.xl,
         borderTopRightRadius: borderRadius.xl,
         paddingHorizontal: spacing.xl,
-        paddingBottom: spacing.xxl + 20,
         maxHeight: SCREEN_HEIGHT * 0.85,
         ...shadows.lg,
     },
@@ -700,6 +702,7 @@ const styles = StyleSheet.create({
     primaryButton: {
         width: '100%',
         paddingVertical: 14,
+        paddingHorizontal: spacing.lg,
         borderRadius: borderRadius.lg,
         alignItems: 'center',
         justifyContent: 'center',

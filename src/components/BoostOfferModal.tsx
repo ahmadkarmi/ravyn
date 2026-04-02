@@ -247,6 +247,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: spacing.sm,
         paddingVertical: spacing.md,
+        paddingHorizontal: spacing.lg,
         borderRadius: borderRadius.md,
         alignSelf: 'stretch',
     },
@@ -257,6 +258,7 @@ const styles = StyleSheet.create({
     },
     declineBtn: {
         paddingVertical: spacing.sm,
+        paddingHorizontal: spacing.lg,
         borderRadius: borderRadius.md,
         borderWidth: 1,
         alignSelf: 'stretch',

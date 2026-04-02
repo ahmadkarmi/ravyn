@@ -14,6 +14,7 @@ import {
     Animated,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -44,6 +45,7 @@ export default function CalendarScreen() {
     const { colors } = useTheme();
     const { showToast } = useToast();
     const insets = useSafeAreaInsets();
+    const tabBarHeight = useBottomTabBarHeight();
 
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -226,7 +228,7 @@ export default function CalendarScreen() {
 
             <Animated.View style={{ flex: 1, opacity: screenOpacity, transform: [{ translateY: screenTranslateY }] }}>
             <ScrollView
-                contentContainerStyle={[styles.scroll, { paddingTop: insets.top + layout.screenTopGap }]}
+                contentContainerStyle={[styles.scroll, { paddingTop: insets.top + layout.screenTopGap, paddingBottom: tabBarHeight + 20 }]}
                 showsVerticalScrollIndicator={false}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
             >
@@ -373,7 +375,7 @@ export default function CalendarScreen() {
                     </View>
                 )}
 
-                <View style={{ height: spacing.xl }} />
+                {/* paddingBottom on contentContainerStyle handles bottom clearance */}
             </ScrollView>
             </Animated.View>
 
@@ -522,7 +524,7 @@ const styles = StyleSheet.create({
     backdropLayer: { ...StyleSheet.absoluteFillObject, overflow: 'hidden' },
     backdropOrbTop: { position: 'absolute', width: 240, height: 240, borderRadius: borderRadius.full, top: -120, left: -80, opacity: 0.55 },
     backdropOrbBottom: { position: 'absolute', width: 260, height: 260, borderRadius: borderRadius.full, bottom: -150, right: -90, opacity: 0.4 },
-    scroll: { paddingHorizontal: layout.screenPaddingX, paddingBottom: layout.screenBottomPad },
+    scroll: { paddingHorizontal: layout.screenPaddingX },
     header: { marginBottom: layout.sectionGap },
     screenTitle: { ...typography.h1 },
     screenSubtitle: { ...typography.bodyMedium, marginTop: spacing['2xs'] },

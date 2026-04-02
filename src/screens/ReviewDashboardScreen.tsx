@@ -18,6 +18,7 @@ if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
 import { useFocusEffect } from '@react-navigation/native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -75,6 +76,7 @@ export default function ReviewDashboardScreen() {
     const { colors } = useTheme();
     const { showToast } = useToast();
     const insets = useSafeAreaInsets();
+    const tabBarHeight = useBottomTabBarHeight();
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [refreshing, setRefreshing] = useState(false);
@@ -318,7 +320,7 @@ export default function ReviewDashboardScreen() {
             </View>
             <Animated.View style={{ flex: 1, opacity: screenOpacity, transform: [{ translateY: screenTranslateY }] }}>
             <ScrollView
-                contentContainerStyle={[styles.scroll, { paddingTop: insets.top + layout.screenTopGap }]}
+                contentContainerStyle={[styles.scroll, { paddingTop: insets.top + layout.screenTopGap, paddingBottom: tabBarHeight + 20 }]}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
                 showsVerticalScrollIndicator={false}
             >
@@ -581,7 +583,6 @@ const styles = StyleSheet.create({
 
     scroll: {
         paddingHorizontal: layout.screenPaddingX,
-        paddingBottom: layout.screenBottomPad,
     },
 
     // ── Header
@@ -677,9 +678,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: spacing.md,
-        paddingBottom: spacing.lg,
-        paddingHorizontal: 0,
+        paddingTop: spacing.lg,
+        paddingBottom: spacing.xl,
+        paddingHorizontal: spacing.xs,
         borderRadius: borderRadius.md,
     },
     weekDayLabel: {

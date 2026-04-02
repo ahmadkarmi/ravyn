@@ -3,6 +3,7 @@
 // Tap a stat chip → learn what it means and how it works.
 
 import React, { useRef, useEffect } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
     View,
     Text,
@@ -102,6 +103,7 @@ interface InfoSheetProps {
 
 export default function InfoSheet({ visible, content, onClose, headerVisual }: InfoSheetProps) {
     const { colors } = useTheme();
+    const insets = useSafeAreaInsets();
     const slideAnim = useRef(new Animated.Value(400)).current;
     const overlayAnim = useRef(new Animated.Value(0)).current;
     const onCloseRef = useRef(onClose);
@@ -195,6 +197,7 @@ export default function InfoSheet({ visible, content, onClose, headerVisual }: I
                         {
                             backgroundColor: colors.surfaceElevated,
                             transform: [{ translateY: slideAnim }],
+                            paddingBottom: spacing.xxl + 20 + insets.bottom,
                         },
                         shadows.lg,
                     ]}
@@ -295,7 +298,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: borderRadius.xl,
         borderTopRightRadius: borderRadius.xl,
         paddingHorizontal: spacing.xl,
-        paddingBottom: spacing.xxl + 20,
         maxHeight: '85%',
     },
     handleArea: {

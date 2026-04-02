@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     cancelBtn: {
         flex: 1,
         paddingVertical: spacing.md,
+        paddingHorizontal: spacing.md,
         borderRadius: borderRadius.lg,
         alignItems: 'center',
     },
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
     confirmBtn: {
         flex: 1,
         paddingVertical: spacing.md,
+        paddingHorizontal: spacing.md,
         borderRadius: borderRadius.lg,
         alignItems: 'center',
     },
