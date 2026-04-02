@@ -787,7 +787,7 @@ export default function HomeScreen() {
             </View>
             <Animated.View style={{ flex: 1, opacity: screenOpacity, transform: [{ translateY: screenTranslateY }] }}>
             <ScrollView
-                contentContainerStyle={[styles.listContent, { paddingBottom: 130 }]}
+                contentContainerStyle={[styles.listContent, { paddingBottom: tabBarHeight + insets.bottom + 20 }]}
                 keyboardShouldPersistTaps="handled"
                 keyboardDismissMode="on-drag"
                 onScroll={handleScroll}
@@ -904,7 +904,7 @@ export default function HomeScreen() {
             </ScrollView>
 
             {/* FAB */}
-            <Animated.View style={{ position: 'absolute', right: 20, bottom: tabBarHeight + 20, transform: [{ scale: fabScale }] }}>
+            <Animated.View style={{ position: 'absolute', right: 20, bottom: tabBarHeight + insets.bottom + 20, transform: [{ scale: fabScale }] }}>
                 <PressableScale
                     onPress={() => openAddModal()}
                     scaleTo={0.91}
