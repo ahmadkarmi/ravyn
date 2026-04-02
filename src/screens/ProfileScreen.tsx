@@ -203,12 +203,16 @@ export default function ProfileScreen({ onReset }: ProfileScreenProps) {
 
         const granted = await hasPermission();
         setNotificationsOn(granted);
+    }, []);
 
-        if (user?.user_metadata) {
+    // Load user metadata separately so that a post-save onAuthStateChange
+    // never overwrites values the user just submitted.
+    useEffect(() => {
+        if (!isEditing && user?.user_metadata) {
             setDisplayName(user.user_metadata.full_name || '');
             setAvatarUrl(user.user_metadata.avatar_url || null);
         }
-    }, [user]);
+    }, [user, isEditing]);
 
     useFocusEffect(
         useCallback(() => {
