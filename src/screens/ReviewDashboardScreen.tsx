@@ -55,7 +55,7 @@ function toDayKey(d: Date): string {
 }
 
 function buildWeekCells(anchor: Date, closedByDate: Record<string, number>): WeekCell[] {
-    const weekStart = startOfWeek(anchor, { weekStartsOn: 0 });
+    const weekStart = startOfWeek(anchor, { weekStartsOn: 1 });
     return Array.from({ length: 7 }, (_, i) => {
         const date = addDays(weekStart, i);
         const key = toDayKey(date);
@@ -64,8 +64,8 @@ function buildWeekCells(anchor: Date, closedByDate: Record<string, number>): Wee
 }
 
 function weekRangeLabel(anchor: Date): string {
-    const start = startOfWeek(anchor, { weekStartsOn: 0 });
-    const end = endOfWeek(anchor, { weekStartsOn: 0 });
+    const start = startOfWeek(anchor, { weekStartsOn: 1 });
+    const end = endOfWeek(anchor, { weekStartsOn: 1 });
     if (isSameMonth(start, end)) {
         return `${format(start, 'MMM d')} – ${format(end, 'd, yyyy')}`;
     }
