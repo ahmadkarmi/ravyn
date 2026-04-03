@@ -87,21 +87,40 @@ export default function TaskCard({
     const handleToggle = () => {
         if (isClosed) {
             Animated.sequence([
-                Animated.timing(checkScale, { toValue: 0.7, duration: 60, useNativeDriver: true }),
+                Animated.timing(checkScale, { toValue: 0.7, duration: 55, useNativeDriver: true }),
                 Animated.spring(checkScale, { toValue: 1, damping: 10, stiffness: 400, useNativeDriver: true }),
             ]).start();
             onUncompleteRef.current?.(taskRef.current);
             return;
         }
-        // Close: checkbox bounce + card pulse, then commit
+        // Distinct success haptic on close — differentiated from the generic light tap
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
+        // Close: checkbox overshoot bounce + card spring pulse, then commit
         Animated.parallel([
+            // Checkbox: compress → overshoot past 1 → settle (satisfying confirmation)
             Animated.sequence([
-                Animated.timing(checkScale, { toValue: 0.6, duration: 60, useNativeDriver: true }),
-                Animated.spring(checkScale, { toValue: 1, damping: 6, stiffness: 500, useNativeDriver: true }),
+                Animated.timing(checkScale, { toValue: 0.5, duration: 55, useNativeDriver: true }),
+                Animated.spring(checkScale, {
+                    toValue: 1,
+                    damping: 5,
+                    stiffness: 600,
+                    useNativeDriver: true,
+                }),
             ]),
+            // Card: spring scale-up with natural settle (feels physical)
             Animated.sequence([
-                Animated.timing(cardScale, { toValue: 1.03, duration: 80, useNativeDriver: true }),
-                Animated.timing(cardScale, { toValue: 1, duration: 100, useNativeDriver: true }),
+                Animated.spring(cardScale, {
+                    toValue: 1.04,
+                    damping: 8,
+                    stiffness: 400,
+                    useNativeDriver: true,
+                }),
+                Animated.spring(cardScale, {
+                    toValue: 1,
+                    damping: 14,
+                    stiffness: 300,
+                    useNativeDriver: true,
+                }),
             ]),
         ]).start(() => onCloseRef.current?.(taskRef.current));
     };

@@ -64,6 +64,57 @@ export function TaskListSkeleton({ count = 4 }: { count?: number }) {
     );
 }
 
+/** Skeleton that mimics a StatTile (icon + value + label) */
+export function StatTileSkeleton() {
+    const { colors } = useTheme();
+    return (
+        <View style={[skStyles.statTile, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+            <Skeleton width={14} height={14} borderRadius={7} />
+            <Skeleton width={32} height={18} borderRadius={4} style={{ marginTop: 4 }} />
+            <Skeleton width={40} height={10} borderRadius={3} style={{ marginTop: 3 }} />
+        </View>
+    );
+}
+
+/** Row of 4 StatTileSkeletons */
+export function StatRowSkeleton() {
+    return (
+        <View style={skStyles.statRow}>
+            {Array.from({ length: 4 }).map((_, i) => (
+                <View key={i} style={skStyles.statCell}>
+                    <StatTileSkeleton />
+                </View>
+            ))}
+        </View>
+    );
+}
+
+/** Skeleton that mimics a review task-summary row */
+export function ReviewRowSkeleton() {
+    const { colors } = useTheme();
+    return (
+        <View style={[skStyles.reviewRow, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+            <Skeleton width={28} height={28} borderRadius={br.sm} />
+            <View style={skStyles.reviewBody}>
+                <Skeleton width="65%" height={13} />
+                <Skeleton width="40%" height={10} style={{ marginTop: 5 }} />
+            </View>
+            <Skeleton width={36} height={14} borderRadius={br.sm} />
+        </View>
+    );
+}
+
+/** Multiple ReviewRowSkeletons */
+export function ReviewListSkeleton({ count = 5 }: { count?: number }) {
+    return (
+        <View style={skStyles.list}>
+            {Array.from({ length: count }).map((_, i) => (
+                <ReviewRowSkeleton key={i} />
+            ))}
+        </View>
+    );
+}
+
 const skStyles = StyleSheet.create({
     card: {
         borderRadius: br.lg,
@@ -82,5 +133,36 @@ const skStyles = StyleSheet.create({
     list: {
         paddingHorizontal: 16,
         paddingTop: 8,
+    },
+    statTile: {
+        flex: 1,
+        borderRadius: br.lg,
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 8,
+        gap: 0,
+    },
+    statRow: {
+        flexDirection: 'row',
+        gap: 8,
+        paddingHorizontal: 16,
+    },
+    statCell: {
+        flex: 1,
+    },
+    reviewRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        borderRadius: br.lg,
+        borderWidth: 1,
+        padding: 12,
+        marginBottom: 8,
+    },
+    reviewBody: {
+        flex: 1,
+        gap: 0,
     },
 });

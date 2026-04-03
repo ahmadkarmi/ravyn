@@ -13,7 +13,7 @@ export const layout = {
     // ── Card
     cardPadding: 20,                  // internal padding (between lg:16 and xl:24)
     cardRadius: borderRadius.xl,      // 20
-    cardShadow: shadows.sm,
+    cardShadow: shadows.warm,
     cardGap: spacing.md,              // 12 — vertical gap between stacked cards
 
     // ── Section

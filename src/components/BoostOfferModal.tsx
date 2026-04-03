@@ -38,6 +38,8 @@ export default function BoostOfferModal({
     const backdropOpacity = useRef(new Animated.Value(0)).current;
     const cardSlide = useRef(new Animated.Value(60)).current;
     const cardOpacity = useRef(new Animated.Value(0)).current;
+    // Flame ring pulse: gently breathes in/out to signal urgency
+    const flamePulse = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {
         if (visible) {
@@ -45,8 +47,18 @@ export default function BoostOfferModal({
                 Animated.timing(backdropOpacity, { toValue: 1, duration: 250, useNativeDriver: true }),
                 Animated.spring(cardSlide, { toValue: 0, damping: 18, stiffness: 180, useNativeDriver: true }),
                 Animated.timing(cardOpacity, { toValue: 1, duration: 200, useNativeDriver: true }),
-            ]).start();
+            ]).start(() => {
+                // Start breathe loop after card settles
+                Animated.loop(
+                    Animated.sequence([
+                        Animated.spring(flamePulse, { toValue: 1.12, damping: 10, stiffness: 80, useNativeDriver: true }),
+                        Animated.spring(flamePulse, { toValue: 1,    damping: 10, stiffness: 80, useNativeDriver: true }),
+                    ]),
+                ).start();
+            });
         } else {
+            flamePulse.stopAnimation();
+            flamePulse.setValue(1);
             backdropOpacity.setValue(0);
             cardSlide.setValue(60);
             cardOpacity.setValue(0);
@@ -80,9 +92,18 @@ export default function BoostOfferModal({
                 >
                     {/* Icon cluster */}
                     <View style={styles.iconCluster}>
-                        <View style={[styles.flameRing, { backgroundColor: colors.streak + '18', borderColor: colors.streak + '40' }]}>
+                        <Animated.View
+                            style={[
+                                styles.flameRing,
+                                {
+                                    backgroundColor: colors.streak + '18',
+                                    borderColor: colors.streak + '40',
+                                    transform: [{ scale: flamePulse }],
+                                },
+                            ]}
+                        >
                             <Ionicons name="flame" size={38} color={colors.streak} />
-                        </View>
+                        </Animated.View>
                         <View style={[styles.boostBadge, { backgroundColor: colors.boost, borderColor: colors.card }]}>
                             <Ionicons name="flash" size={14} color="#FFF" />
                         </View>

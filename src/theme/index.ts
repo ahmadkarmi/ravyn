@@ -391,6 +391,17 @@ export const shadows = {
               shadowRadius: 16,
               elevation: 8,
           },
+    // Warm-tinted card shadow — uses primary burnt sienna hue for depth that
+    // feels on-palette instead of neutral grey.
+    warm: isWeb
+        ? { boxShadow: '0px 2px 10px rgba(185,74,47,0.10)' }
+        : {
+              shadowColor: '#B94A2F',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.10,
+              shadowRadius: 10,
+              elevation: 4,
+          },
     glow: (color: string) =>
         isWeb
             ? { boxShadow: `0px 0px 14px 0px ${color}59` }
